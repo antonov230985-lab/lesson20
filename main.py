@@ -20,6 +20,7 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+APP_VERSION = "v2-beget-update-test"
 
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -39,6 +40,14 @@ async def ping_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     Нужен для быстрой проверки, что бот живой.
     """
     await update.message.reply_text("pong")
+
+
+async def version_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """
+    Обработчик команды /version.
+    Показывает текущую версию бота.
+    """
+    await update.message.reply_text(f"Версия бота: {APP_VERSION}")
 
 
 async def echo_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -83,6 +92,7 @@ def main() -> None:
 
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("ping", ping_command))
+    app.add_handler(CommandHandler("version", version_command))
 
     # Обрабатываем обычные текстовые сообщения, но не команды.
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo_message))
