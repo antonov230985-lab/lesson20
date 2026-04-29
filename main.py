@@ -46,7 +46,9 @@ async def echo_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     Главный обработчик обычных текстовых сообщений.
     Берём текст пользователя и отправляем его обратно.
     """
-    user_text = update.message.text
+    user_text = update.message.text or ""
+    # Берём первое "слово" (токен по пробелам), чтобы бот отвечал предсказуемо.
+    first_word = user_text.split(maxsplit=1)[0] if user_text.strip() else ""
 
     logger.info(
         "Получено сообщение от user_id=%s: %s",
@@ -54,7 +56,10 @@ async def echo_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         user_text,
     )
 
-    await update.message.reply_text(f"реально + {user_text}")
+    # Два варианта ответа по формату задания.
+    await update.message.reply_text(
+        f"реально + {first_word}\nреально крутой + {first_word}"
+    )
 
 
 def main() -> None:
