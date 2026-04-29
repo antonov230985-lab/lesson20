@@ -54,7 +54,7 @@ async def echo_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         user_text,
     )
 
-    await update.message.reply_text(user_text)
+    await update.message.reply_text(f"реально + {user_text}")
 
 
 def main() -> None:
